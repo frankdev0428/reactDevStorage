@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function RandomColor() {
   const [typeOfColor, setTypeOfColor] = useState("hex");
@@ -21,8 +21,16 @@ export default function RandomColor() {
     const r = randomColorUtility(256);
     const g = randomColorUtility(256);
     const b = randomColorUtility(256);
-    setColor(`rgb${r},${g},${b}`);
+    setColor(`rgb(${r},${g},${b})`);
   }
+
+  useEffect(() => {
+    if (typeOfColor === "rgb") {
+      handleCreateRgbColor();
+    } else {
+      handleCreateHexColor();
+    }
+  }, [typeOfColor]);
   return (
     <div
       style={{
@@ -49,6 +57,8 @@ export default function RandomColor() {
           color: "white",
           fontSize: "60px",
           marginTop: `50px`,
+          flexDirection: 'column',
+          gap: '20px',
         }}
       >
         <h3>{typeOfColor === "rgb" ? "RGB Color" : "HEX Color"}</h3>

@@ -9,7 +9,7 @@ export default function RandomColor() {
   }
 
   function handleCreateHexColor() {
-    const hex = [1, 2, 3, 4, 5, 6, 7, 8, 9,0, "A", "B", "C", "D", "E", "F"];
+    const hex = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "A", "B", "C", "D", "E", "F"];
     let hexColor = "#";
     for (let i = 0; i < 6; i++) {
       hexColor += hex[randomColorUtility(hex.length)];
@@ -18,7 +18,10 @@ export default function RandomColor() {
     setColor(hexColor);
   }
   function handleCreateRgbColor() {
-    const r = random
+    const r = randomColorUtility(256);
+    const g = randomColorUtility(256);
+    const b = randomColorUtility(256);
+    setColor(`rgb${r},${g},${b}`);
   }
   return (
     <div
@@ -38,6 +41,19 @@ export default function RandomColor() {
       >
         Geenrate Random color
       </button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItem: clearInterval,
+          color: "white",
+          fontSize: "60px",
+          marginTop: `50px`,
+        }}
+      >
+        <h3>{typeOfColor === "rgb" ? "RGB Color" : "HEX Color"}</h3>
+        <h1>{color}</h1>
+      </div>
     </div>
   );
 }

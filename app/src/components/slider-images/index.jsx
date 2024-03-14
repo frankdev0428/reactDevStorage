@@ -9,7 +9,7 @@ export default function ImageSlider({ url, limit }) {
   const [errorMsg,setErrorMsg] = useState(null);
   const [loading,setLoading] = useState(false);
 
-  async function fetchImages() {
+  async function fetchImages(getUrl) {
     try {
       setLoading(true);
       const response = await fetch(`${url}?page=1&limit=${limit}`);
@@ -26,7 +26,7 @@ export default function ImageSlider({ url, limit }) {
   }
 
   useEffect(() => {
-
+        console.log(images)
     if (url !== "") fetchImages()
   }, [url]);
     
@@ -54,7 +54,10 @@ export default function ImageSlider({ url, limit }) {
       <span className="circle-indicators">
         {
             images && images.length ? 
-            images.map((_,index)=> <button>
+            images.map((_,index)=> <button
+            key={index}
+            className="current-indicator"
+            >
                 
             </button>)
             :null

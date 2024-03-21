@@ -1,75 +1,65 @@
-import { useState, useEffect } from "react";
-import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from "react-icons/bs";
-import "./styles.css";
+import {useState, useEffect} from 'react'
+import './styles.css';
 
-export default function SliderImagesDup( { url , limit }){
-    const [images,setImages] = useState([]);
-    const [error,setError] = useState(null);
+
+
+const Duplicate = () => {
+
     const [loading,setLoading] = useState(false);
-    const [currentSlice,setCurrentSlice] = useState(0);
+    const [products,setProducts] = useState([]);
+    const [count,setCount] = useState(0);
+    const [disableButton,setDisableButton] = useState(false);
 
-    async function fetchImages() {
-        try{
-          setLoading(true);
-          const response = await fetch(`${url}?page=1&limit=${limit}`);
-          const data = await response.json();
-          if(data) {
+
+    async function fetchProducts() {
+         try {
+           setLoading(true);
+           const response = await fetch(`https://dummyjson.com/products?limit=20&skip=${
+            count === 0 ? 0 : count * 20
+           }`)
+           const result = await response.json();
+           if (result && result.products && result.products.length) {
+            
+            setProducts((prevData) => [...prevData, ...result.products]);
             setLoading(false);
-            setImages(data);
-          }
-        } catch (e){
-           setLoading(false);
-           setError(e.message);
-        }
+           }
+
+          console.log(result)
+         } catch(e) {
+             console.log(e);
+             setLoading(false);
+         }
     }
     useEffect(() => {
-        if(url !== '') fetchImages();
-    },[url]);
-   if(loading){
-      return <h2>The page is loading! Please Wait for a bit 😎</h2>
-   }
-   if(error !== null){
-    return <h2>We found {error}</h2>
-   }
-   function handleNext() {
-      setCurrentSlice(currentSlice === images.length - 1 ? 0: currentSlice + 1);
-   }
+       fetchProducts();
+    },[count]);
+    useEffect(() => {
+        if (products && products.length === 100){
+          setDisableButton(true);
+        }  
+    },[products])
 
-   function handlePrevious() {
-     setCurrentSlice(currentSlice === 0 ? images.length -1: currentSlice - 1);
-   }
-    return <div className="container">
-        <BsArrowLeftCircleFill className="arrow arrow-left" onClick={handlePrevious}/>
-       {
-        images && images.length ?
-        images.map((getImages,index) => (
-            <img 
-               className={
-                currentSlice === index ?
-                "current-image" :
-                "current-image hide-current-image"
-               }
-               key={getImages.id}
-               src={getImages.download_url}
-               alt={getImages.download_url}
-            />
-        )): null
-       }
-       <BsArrowRightCircleFill className="arrow arrow-right" onClick={handleNext}/>
-       <span className="circle-indicators">
-        {
-            images && images.length ?
-            images.map((_,index) => (
-                <button
-                key={index}
-                className={
-                    currentSlice === index ?
-                    "current-indicator" :
-                    "current-indicator inactive-indicator"
-                }
-                ></button>
-            )): null
-        }
-       </span>
+    if(loading) {
+        return <div>The Page Currently Loading Data 🔥🔥🔥🔥</div>
+    }
+  return (
+    <div className='load-more-container'> 
+     <div className='product-container'>
+       {products && products.length ? 
+       products.map((data,index) => (
+        <div className='product' key={index}>
+            <img src={data.thumbnail} alt={data.description}/>
+            <p>{data.title}</p>
+        </div>
+       ))
+       : null   
+    }
+     </div>
+     <div className="button-container">
+        <button disabled={disableButton} onClick={()=> setCount(count + 1)}>Load more</button>
+     </div>
     </div>
+  )
 }
+
+export default Duplicate;

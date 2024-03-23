@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
-import "./style.css";
-
-export default function LoadMoreData() {
+import React, { useEffect, useState } from "react";
+import './style.css'
+const LoadMoreData = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState(0);
-  const [disableButton, setDisableButton] = useState(false);
-
-
-  async function fetchProducts() {
+  const [disable,setDisable] = useState(false)
+  async function fetchData() {
     try {
       setLoading(true);
       const response = await fetch(
@@ -17,52 +14,51 @@ export default function LoadMoreData() {
         }`
       );
       const result = await response.json();
-
-      if (result && result.products && result.products.length) {
-        setProducts((prevData) => [...prevData, ...result.products]);
+      if (result.products && result.products.length) {
         setLoading(false);
+        setProducts((prevData) => [...prevData, ...result.products]);
       }
-      console.log(result);
     } catch (e) {
       console.log(e);
       setLoading(false);
     }
   }
+    console.log(products)
   useEffect(() => {
-    fetchProducts();
+    fetchData();
   }, [count]);
 
   useEffect(() => {
-    
-    if( products && products.length === 100){
-      setDisableButton(true);
+    if(products.length === 100){
+      setDisable(true);
     }
- 
-   },[products])
-
+  },[products])
   if (loading) {
-    return <h2>The Page Currently Loading Data 🔥🔥🔥🔥</h2>;
+    return <h2>The page is currently loading 🔥🔥🔥</h2>;
   }
-
-  
   return (
     <div className="load-more-container">
       <div className="product-container">
-        {products && products.length
-          ? products.map((item,index) => (
-              <div className="product" key={index}>
-                <img src={item.thumbnail} alt={item.title} />
-                <p>{item.title}</p>
-              </div>
-            ))
-          : null}
+          {products && products.length ? 
+        products.map((productData,index) => (
+          <div className="product" key={index}>
+          <img src={productData.thumbnail} alt={productData.description} />
+          <h3>{productData.title}</h3>
+          <p>{productData.brand}</p>
+          <p>Rating : {productData.rating} ⭐️</p>
+          <p>Stock : {productData.stock}</p>
+          <p>{productData.price} $</p>
+          </div>
+        ))
+        :null  
+        }
       </div>
       <div className="button-container">
-        <button disabled={disableButton} onClick={() => setCount(count + 1)}>Load more Products</button>
-        {
-            disableButton && <p>You have reach 100 producs</p> 
-        }
+        <button disabled={disable} onClick={() => setCount(count + 1)}>Load more product</button>
+        {disable && <h3>You hit 100 product</h3>}
       </div>
     </div>
   );
-}
+};
+
+export default LoadMoreData;

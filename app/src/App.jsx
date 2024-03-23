@@ -1,5 +1,4 @@
 import Accordian from "./components/accordian";
-import Duplicate from "./components/duplicate";
 import SliderImagesDup from "./components/duplicate";
 import LoadMoreData from "./components/load-more-images";
 import RandomColor from "./components/random-color";
@@ -19,7 +18,8 @@ function App() {
       {/* <ImageSlider url={"https://picsum.photos/v2/list"} limit={"10"} /> */}
       {/* Load more product component */}
       {/* <LoadMoreData /> */}
-      <Duplicate />
+      {/* <LoadMoreData /> */}
+      {/* Sidebar menu  */}
     </div>
   );
 }

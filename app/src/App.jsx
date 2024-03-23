@@ -4,6 +4,8 @@ import LoadMoreData from "./components/load-more-images";
 import RandomColor from "./components/random-color";
 import ImageSlider from "./components/slider-images";
 import StarRating from "./components/star-rating";
+import TreeView from "./components/treeview";
+import menus from "./components/treeview/data";
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
       {/* <LoadMoreData /> */}
       {/* <LoadMoreData /> */}
       {/* Sidebar menu  */}
+      <TreeView menus={menus}/>
     </div>
   );
 }

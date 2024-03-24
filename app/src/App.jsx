@@ -23,6 +23,7 @@ function App() {
       {/* <LoadMoreData /> */}
       {/* Sidebar menu  */}
       <TreeView menus={menus}/>
+      
     </div>
   );
 }

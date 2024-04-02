@@ -22,7 +22,7 @@ function App() {
       {/* <LoadMoreData /> */}
       {/* <LoadMoreData /> */}
       {/* Sidebar menu  */}
-      <TreeView menus={menus}/>
+      {/* <TreeView menus={menus}/> */}
       
     </div>
   );

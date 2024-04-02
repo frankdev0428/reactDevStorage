@@ -1,9 +1,11 @@
 import React from 'react'
 
-const TreeView = () => {
+const SideBar = ({nav = []}) => {
+
+
   return (
     <div>index</div>
   )
 }
 
-export default TreeView;
+export default SideBar;
